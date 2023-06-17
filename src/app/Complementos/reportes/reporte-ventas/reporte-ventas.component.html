@@ -1,0 +1,174 @@
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <span class="h3">Listado de Ventas</span>
+            <button class="btn btn-dark btn-lg  float-right route" routerLink="/reportes" >Volver</button>
+            <div class="container-fluid mx-0">
+        
+              <form>
+                <div class="row-12">
+                  <div class="col-12 form-inline justify-content-center">
+                    <label class="col-sm-1 col-form-label">Desde:</label>
+                    <div class="input-group">
+      
+                      <input type="date" name="filtrar" class="form-control " [(ngModel)]="query1">
+                    </div>
+                    <label class="col-sm-1 col-form-label">Hasta:</label>
+                    <div class="input-group">
+                      <input type="date" name="filtrar" class="form-control " [(ngModel)]="query2">
+                    </div>
+                    <button class="btn  btn-lg  ml-3 " (click)="dato()">
+                      <i class="bi bi-search"></i>
+                    </button>
+                    <button class="btn  btn-lg  ml-3 " (click)="getVentas()">
+                      <i class="bi bi-arrow-clockwise"></i>
+                    </button>
+                  </div>
+      
+                </div>
+      
+              </form>
+            </div>
+           <h5 style="margin-top : 30px"   *ngIf="venta.length == 0">No hay ventas en el sistema</h5>
+           <form>
+            <div class="form-group">
+              <div class="input-group mt-4">
+                <div class="div input-group-text">
+                  <i class="bi bi-search"></i>
+                </div>
+                <input type="text" name="filtrar" class="form-control " placeholder="Buscar Nombre"  [(ngModel)]="query" >
+              </div>
+            </div>
+           </form> 
+           <table *ngIf="venta.length > 0" class="table table-striped mt-4">
+                <thead>
+                  <tr>
+                    <th>Remision</th>
+                    <th>Usuario</th>
+                    <th>Cliente</th>
+                    <th>Fecha</th>
+                    <th>Tipo Fact</th>
+                    <th>Total</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let i of venta">
+                    <td>{{i.remision}}</td>
+                    <td>{{i.usuario}}</td>
+                    <td>{{i.cliente[0].nombre}}</td>
+                    <td>{{i.fecha.toDate() | date :'dd/MM/yyyy'}}</td>
+                    <td>{{i.tipoFac}}</td>
+                    <td>{{i.pago[0].total| currency}}</td>
+                    <td>
+                      <i class="bi bi-eye-fill text-primary" (click)="openModal(i.remision)"></i>
+                    </td>
+                  </tr>
+                  
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal vista factura -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" 
+aria-labelledby="exampleModalLabel" aria-hidden="true" >
+  <div class="modal-dialog modal-xl" >
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title " id="exampleModalLabel">Vista Previa de Factura</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card">
+         <div class="container-fluid mx-0" *ngFor="let i of factura">
+          <div class="row">
+            <div class="col">
+              <label class="col-sm-4   "><b>Remisiòn:</b></label>
+              <label class="col-sm-2  ">{{i.remision}}</label>
+            </div>
+            <div class="col">
+              <label class="col-sm-4 "><b>Usuario:</b></label>
+              <label class="col-sm-2  ">{{i.usuario}}</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label class="col-sm-4 "><b>Fecha:</b></label>
+              <label class="col-sm-2  ">{{i.fecha.toDate() | date :'dd/MM/yyyy'}}</label>
+            </div>
+            <div class="col">
+              <label class="col-sm-4 "><b>Tipo:</b></label>
+              <label class="col-sm-2  ">{{i.tipoFac}}</label>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Producto</th>
+                  <th>Referencia</th>
+                  <th>Precio</th>
+                  <th>Cantidad</th>
+                  <th>Total</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let i of detalle">
+                  <td>{{i.nombre}}</td>
+                  <td>{{i.referencia}}</td>
+                  <td>{{i.precio | currency}}</td>
+                  <td>{{i.cantidad}}</td>
+                  
+                  <td>{{i.total| currency}}</td>
+                  <td>
+                    
+                  </td>
+                </tr>
+                
+              </tbody>
+            </table>
+          </div>
+          <hr>
+          <div class="row" *ngFor="let i of pago">
+            
+            <div class="col-12">
+              <label class="col-sm-4  "> <b>Total Sub:</b></label>
+              <label class="col-sm-2  ">{{i.total | currency}}</label>
+            </div>
+            <div class="col-12">
+              <label class="col-sm-4  "> <b>Metodo de Pago:</b></label>
+              <label class="col-sm-2  ">{{i.metodo}}</label>
+            </div>
+            <div class="col-12">
+              <label class="col-sm-4  "><b>Recibido:</b></label>
+              <label class="col-sm-2  ">{{i.recibe| currency}}</label>
+            </div>
+            <div class="col-12">
+              <label class="col-sm-4 "><b>Cambio:</b></label>
+              <label class="col-2  ">{{i.cambio | currency}}</label>
+            </div>
+            <div class="col-12">
+              <label class="col-sm-4 "><b>Saldo:</b></label>
+              <label class="col-sm-2 ">{{i.saldo | currency}}</label>
+            </div>
+          </div>
+         </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Volver</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+

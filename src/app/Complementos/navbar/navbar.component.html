@@ -1,0 +1,38 @@
+<nav class="navbar navbar-dark  bg-dark navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="">ApolPOS</a>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item" >
+          <a class="nav-link" routerLink="/usuarios" *ngIf="rol == 'Admin'" >Usuarios</a>
+        </li>
+        <li class="nav-item" >
+          <a class="nav-link"  routerLink="/clientes" *ngIf="rol == 'Admin' || 'Cajero'">Clientes</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/inventario" *ngIf="rol == 'Admin'">Inventario</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/facturacion" *ngIf="rol == 'Admin' || 'Cajero'">Facturacion </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/reportes" *ngIf="rol == 'Admin'">Reportes</a>
+        </li>
+      </ul>
+      <form class="d-flex" role="search">
+        <span class="navbar-text mr-4">Usuario : {{dataUser}}</span>
+        <button class="btn btn-outline-danger my-2 my-sm-0" type="button" (click)="logOut()">Cerrar Sesion</button>
+      </form>
+    </div>
+  </div>
+</nav>
+<!--<app-facturacion (variableActualizada)="onVariableActualizada($event)"></app-facturacion>-->
+
+<!--<div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+  <h1 class="display-4 fw-normal text-white">Bienvenido/a!!!!!!</h1>
+  <p class="fs-5 text-white">{{dataUser?.email}}</p>
+
+</div>-->

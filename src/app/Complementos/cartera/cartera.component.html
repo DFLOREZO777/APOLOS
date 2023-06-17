@@ -1,0 +1,167 @@
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-body">
+      <span class="h3">Cartera de Cliente</span>
+      <button class="btn btn-dark btn-lg  float-right route" routerLink="/clientes">Volver</button>
+      <div class="container-fluid mx-0">
+        
+        <form>
+          <div class="row-12">
+            <div class="col-12 form-inline justify-content-center">
+              <label class="col-sm-1 col-form-label">Desde:</label>
+              <div class="input-group">
+
+                <input type="date" name="filtrar" class="form-control " [(ngModel)]="query">
+              </div>
+              <label class="col-sm-1 col-form-label">Hasta:</label>
+              <div class="input-group">
+                <input type="date" name="filtrar" class="form-control " [(ngModel)]="query2">
+              </div>
+              <button class="btn  btn-lg  ml-3 " (click)="dato()">
+                <i class="bi bi-search"></i>
+              </button>
+              <button class="btn  btn-lg  ml-3 " (click)="getCartera()">
+                <i class="bi bi-arrow-clockwise"></i>
+              </button>
+            </div>
+
+          </div>
+
+        </form>
+      </div>
+      <h5 style="margin-top : 30px"   *ngIf="cartera.length == 0">No hay cartera del cliente en el sistema</h5>
+      <span *ngIf="validor">
+        <div class="alert alert-danger">No se encontro ningun resultado en el limite establecido</div>
+      </span>
+      <table *ngIf="cartera.length > 0" class="table table-striped mt-4">
+        <thead>
+          <tr>
+            <th>Documento</th>
+            <th>Nombre Cliente</th>
+            <th>Remision</th>
+            <th>Fecha</th>
+            <th>Tipo Fact</th>
+            <th>Monto</th>
+            <th>Abono</th>
+            <th>Saldo</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let i of cartera ">
+            <td>{{i.documento}}</td>
+            <td>{{i.cliente}}</td>
+            <td>{{i.remision}}</td>
+            <td>{{i.fecha?.toDate() | date :'dd/MM/yyyy'}}</td>
+            <td>{{i.tipoFac}}</td>
+            <td>{{i.monto | currency}}</td>
+            <td>{{i.abono | currency }}</td>
+            <td>{{i.saldo | currency}}</td>
+            <td>
+              
+                <i class="bi bi-cash-coin fa-lg mr-3 text-success" (click)="openModal(i.remision)"></i>
+                <i class="bi bi-search fa-lg mr-3 text-primary" (click)="openModalAbono(i.remision)"></i>
+            
+              
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title " id="exampleModalLabel">Ventana de Abonos</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="doSomething()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <form [formGroup]="abono">
+            <div class="row">
+              <div class="col-12 mt-4 form-inline">
+                <label class=" col-sm-2 col-form-label">Metodo:</label>
+                <select id="metodo" class="form-control"  formControlName="metodo">
+        
+                    <option selected>Datafono</option>
+                    <option selected>Nequi</option>
+                    <option selected>Efectivo</option>
+                </select>
+            </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-12 form-inline">
+                <label class="col-sm-2 col-form-label ">Credito: </label>
+                <input type="number" class="form-control" formControlName="credito" placeholder={{saldo}} [attr.disabled]="true">
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-12 form-inline">
+                <label class="col-sm-2 col-form-label ">Abona: </label>
+                <input type="number" class="form-control" formControlName="abono" (keydown.enter)="cambio($event)">
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-12 form-inline">
+                <label class="col-sm-2 col-form-label ">Saldo: </label>
+                <input id="saldo" type="number" class="form-control" formControlName="saldo" >
+              </div>
+            </div>
+              
+          </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="doSomething()">Volver</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" [disabled]="isDisabled" (click)="addAbono()">Aceptar</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal Abono -->
+<div class="modal fade" id="modalAbonos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title " id="exampleModalLabel">Registro de Abonos</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table *ngIf="registroAbono.length > 0"  class="table table-striped mt-4">
+          <thead>
+            <tr>
+              <th>Remisiòn</th>
+              <th>Metodo</th>
+              <th>Fecha</th>
+              <th>Abono</th>
+              <th>Saldo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let i of registroAbono">
+              <td>{{i.remision}}</td>
+              <td>{{i.metodo}}</td>
+              <td>{{i.fecha?.toDate() | date :'dd/MM/yyyy'}}</td>
+              <td>{{i.abona | currency }}</td>
+              <td>{{i.saldo | currency}}</td>
+            </tr>
+            
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Volver</button>
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,73 @@
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <span class="h3">Listado de Entradas</span>
+            <button class="btn btn-dark btn-lg  float-right route" routerLink="/reportes" >Volver</button>
+            <div class="container-fluid mx-0">
+        
+              <form>
+                <div class="row-12">
+                  <div class="col-12 form-inline justify-content-center">
+                    <label class="col-sm-1 col-form-label">Desde:</label>
+                    <div class="input-group">
+      
+                      <input type="date" name="filtrar" class="form-control " [(ngModel)]="query1">
+                    </div>
+                    <label class="col-sm-1 col-form-label">Hasta:</label>
+                    <div class="input-group">
+                      <input type="date" name="filtrar" class="form-control " [(ngModel)]="query2">
+                    </div>
+                    <button class="btn  btn-lg  ml-3 " (click)="dato()">
+                      <i class="bi bi-search"></i>
+                    </button>
+                    <button class="btn  btn-lg  ml-3 " (click)="getEntradas()">
+                      <i class="bi bi-arrow-clockwise"></i>
+                    </button>
+                  </div>
+      
+                </div>
+      
+              </form>
+            </div>
+           <h5 style="margin-top : 30px"   *ngIf="entrada.length == 0">No hay entradas en el sistema</h5>
+           <form>
+            <div class="form-group">
+              <div class="input-group mt-4">
+                <div class="div input-group-text">
+                  <i class="bi bi-search"></i>
+                </div>
+                <input type="text" name="filtrar" class="form-control " placeholder="Buscar Nombre"  [(ngModel)]="query" >
+              </div>
+            </div>
+           </form> 
+           <table *ngIf="entrada.length > 0" class="table table-striped mt-4">
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Referencia</th>
+                    <th>Fecha Ingreso</th>
+                    <th>Entrada</th>
+                    
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let i of entrada | filtroUsuario: query">
+                    <td>{{i.nombre}}</td>
+                    <td>{{i.referencia}}</td>
+                    <td>{{i.fechaIngreso.toDate() | date :'dd/MM/yyyy'}}</td>
+                    <td>{{i.entrada}}</td>
+                    
+                    <td>
+                      
+                    </td>
+                  </tr>
+                  
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>
+
+
+

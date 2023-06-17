@@ -1,0 +1,47 @@
+<app-navbar></app-navbar>
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <span class="h3">Listado de usuarios</span>
+            
+            <button class="btn btn-dark btn-lg  float-right route" routerLink="/crear-usuarios" >Agregar</button>
+           <h5 style="margin-top : 30px"   *ngIf="usuario.length == 0">No hay usuarios en el sistema</h5>
+           <form>
+            <div class="form-group">
+              <div class="input-group mt-4">
+                <div class="div input-group-text">
+                  <i class="bi bi-search"></i>
+                </div>
+                <input type="text" name="filtrar" class="form-control " placeholder="Buscar" [(ngModel)]="query">
+              </div>
+            </div>
+           </form> 
+           <table *ngIf="usuario.length > 0" class="table table-striped mt-4">
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Correo</th>
+                    <th>Contraseña</th>
+                    <th>Rol</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let i of usuario | filtroUsuario: query ">
+                    <th>{{i.nombre}}</th>
+                    <th>{{i.correo}}</th>
+                    <th>{{i.contrasena}}</th>
+                    <th>{{i.rol}}</th>
+                    <td>
+                      <i class="bi bi-pencil-square fa-lg mr-3 text-info" [routerLink]="['/edit-Usuario/', i.id]"></i>
+                      <i (click)="eliminarUsuario(i.id)" class="bi bi-trash fa-lg text-danger"></i>
+                    </td>
+                  </tr>
+                  
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>
+
+

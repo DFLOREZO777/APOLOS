@@ -1,0 +1,49 @@
+
+
+<div class="container pt-4">
+    <div class="row">
+        <div class="col-lg-6 offset-lg-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h3>{{titulo}}
+                        <div *ngIf="loading" class="spinner-border float-right" role="status">
+                            <span class="sr-only">Loading...</span>
+                          </div>
+                    </h3>
+                    <span *ngIf="submitted && entradaProducto.invalid" class="badge badge-danger">TODOS LOS CAMPOS SON OBLIGATORIOS</span>
+                    <form class="mt-4" [formGroup]="entradaProducto" (ngSubmit)="agregarEntrada()">
+                        <div class="row">
+                            <div class="col">
+                                <input type="text" class="form-control form-control-lg" placeholder="Nombre Prodcuto"
+                                formControlName="nombre" [attr.disabled]="true">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <input type="text" class="form-control form-control-lg mt-4" placeholder="Referencia Producto"
+                                formControlName="referencia" [attr.disabled]="true">
+                            </div>
+                        </div>                  
+                        <div class="row">
+                            <div class="col">
+                                <input type="number" class="form-control form-control-lg mt-4" placeholder="Stock Producto"
+                                formControlName="stock" [attr.disabled]="true">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <input type="number" class="form-control form-control-lg mt-4" placeholder="Entradas Producto"
+                                formControlName="entrada">
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <button  type="text" class="btn btn-secondary btn-lg mr-3" routerLink="/inventario" >Volver</button>
+                            <button type="submit" class="btn btn-primary btn-lg">Agregar</button>
+                           <!-- <button type="submit" class="btn btn-primary btn-lg" [disabled]="crearCliente.invalid">Agregar</button>-->
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

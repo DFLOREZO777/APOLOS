@@ -1,0 +1,70 @@
+
+<div class="container pt-4">
+    <div class="row">
+        <div class="col-lg-6 offset-lg-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h3>{{titulo}}
+                        <div *ngIf="loading" class="spinner-border float-right" role="status">
+                            <span class="sr-only">Loading...</span>
+                          </div>
+                    </h3>
+                    <span *ngIf="submitted && crearCliente.invalid" class="badge badge-danger">Todos los campos son obligarotios o hay uno erroneo</span>
+                    <form class="mt-4" [formGroup]="crearCliente" (ngSubmit)="agregarEditarCliente()">
+                        <div class="row">
+                            <div class="col">
+                                <input type="text" class="form-control form-control-lg" placeholder="No Documento"
+                                formControlName="documento">
+                                <span *ngIf="crearCliente.get('documento')?.hasError('required') && crearCliente.get('documento')?.touched"
+                                class="text-danger errorLabel">El <strong>Documento</strong> es requerido</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <input type="text" class="form-control form-control-lg mt-4" placeholder="Nombre y Apellido"
+                                formControlName="nombre">
+                                <span *ngIf="crearCliente.get('nombre')?.hasError('required') && crearCliente.get('nombre')?.touched"
+                                class="text-danger errorLabel">El <strong>Nombre</strong> es requerido</span>
+                            </div>
+                        </div>
+                       
+                        <div class="row">
+                            <div class="col">
+                                <input type="tel" class="form-control form-control-lg mt-4" placeholder="Telefono"
+                                formControlName="telefono">
+                                <span *ngIf="crearCliente.get('telefono')?.hasError('required') && crearCliente.get('telefono')?.touched"
+                                class="text-danger errorLabel">El <strong>Telefono</strong> es requerido</span>
+                                
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <input id="monto" type="number" class="form-control form-control-lg mt-4" placeholder="Monto"
+                                formControlName="monto" (keyup)="validarCampo($event)" [attr.disabled]="true" >
+                               <span *ngIf="validor" class="text-danger errorLabel">El <strong> Monto</strong>tiene que se un numero entero</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 mt-4">
+                                <input type="number" class="form-control form-control-lg mt-4" placeholder="Abono"
+                                formControlName="abono" (keyup)="calculoSaldo($event)" [attr.disabled]="true">
+                                <span *ngIf="validor2" class="text-danger errorLabel">El <strong> Abono</strong>tiene que se un numero entero</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 mt-4">
+                                <input   id="saldo" type="number" class="form-control form-control-lg mt-4" placeholder="Saldo"
+                                formControlName="saldo"  [attr.disabled]="true">
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <button  type="text" class="btn btn-secondary btn-lg mr-3" routerLink="/clientes" >Volver</button>
+                            <button type="submit" class="btn btn-primary btn-lg">Agregar</button>
+                            
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

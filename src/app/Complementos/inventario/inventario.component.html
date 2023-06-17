@@ -1,0 +1,47 @@
+<app-navbar></app-navbar>
+<div class="container-fluid mx-0 px-0">
+  <div class="row-fluid  mx-0 ">
+    <h3 class="text-center p-3 bg-secondary text-white my-0">INVENTARIO</h3>
+  </div>
+
+  <div class="container-fluid mx-0 ">
+    <div class="card">
+      <div class="card-body">
+        <span class="h3">Listado de Productos</span>
+        <button class="btn btn-primary btn-lg  float-right route" routerLink="/crear-producto">Crear</button>
+        <h5 style="margin-top : 30px" *ngIf="producto.length == 0">No hay prodcutos en el sistema</h5>
+        <table *ngIf="producto.length > 0" class="table table-striped mt-4">
+          <thead>
+            <tr>
+              <th>Nombre Prodcuto</th>
+              <th>Ref</th>
+              <th>Costo</th>
+              <th>Precio</th>
+              <th>Entrada</th>
+              <th>Salida</th>
+              <th>Stock</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let i of producto">
+              <td>{{i.nombre}}</td>
+              <td>{{i.referencia}}</td>
+              <td>{{i.costo | currency}}</td>
+              <td>{{i.precio | currency}}</td>
+              <td>{{i.entrada}}</td>
+              <td>{{i.salida}}</td>
+              <td>{{i.stock}}</td>
+              <td>
+                <i class="bi-plus-circle fa-lg mr-3 text-success" [routerLink]="['/entrada-producto/', i.id]"></i>               
+                <i class="bi bi-pencil-square fa-lg mr-3 text-info" [routerLink]="['/edit-Producto/', i.id]"></i>
+                <i (click)="eliminarProducto(i.id)" class="bi bi-trash fa-lg text-danger mr-3" ></i>
+                 
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+</div>

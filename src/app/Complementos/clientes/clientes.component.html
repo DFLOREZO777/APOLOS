@@ -1,0 +1,51 @@
+<app-navbar></app-navbar>
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <span class="h3">Listado de Clientes</span>
+            <button class="btn btn-dark btn-lg  float-right route" routerLink="/crear-clientes" >Agregar</button>
+           <h5 style="margin-top : 30px"   *ngIf="cliente.length == 0">No hay clientes en el sistema</h5>
+           <form>
+            <div class="form-group">
+              <div class="input-group mt-4">
+                <div class="div input-group-text">
+                  <i class="bi bi-search"></i>
+                </div>
+                <input type="text" name="filtrar" class="form-control " placeholder="Buscar por Documento" [(ngModel)]="query">
+              </div>
+            </div>
+           </form>
+            <table *ngIf="cliente.length > 0"  class="table table-striped mt-4">
+                <thead>
+                  <tr>
+                    <th>Documento</th>
+                    <th>Nombre Cliente</th>
+                    <th>Telefono</th>
+                    <th>Monto</th>
+                    <th>Abonos</th>
+                    <th>Saldo</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let i of cliente | filtroCliente: query">
+                    <td>{{i.documento}}</td>
+                    <td>{{i.nombre}}</td>
+                    <td>{{i.telefono}}</td>
+                    <td>{{i.monto | currency}}</td>
+                    <td>{{i.abono | currency }}</td>
+                    <td>{{i.saldo | currency}}</td>
+                    <td>
+                      <i  class="bi bi-receipt fa-lg mr-3 text-success" [routerLink]="['/cartera/',i.id]"></i>
+                        <i class="bi bi-pencil-square fa-lg mr-3 text-info" [routerLink]="['/edit-Cliente/', i.id]"></i>
+                        <i (click)="eliminarCliente(i.id)" class="bi bi-trash fa-lg text-danger" ></i>
+                        
+                    </td>
+                  </tr>
+                  
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>
